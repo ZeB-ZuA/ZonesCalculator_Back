@@ -13,5 +13,6 @@ public class Antenna {
     private double power; // in watts
     private double height; // in meters
     private double gain; // in linear scale
+    private double frequency; // in MHz
 
 }

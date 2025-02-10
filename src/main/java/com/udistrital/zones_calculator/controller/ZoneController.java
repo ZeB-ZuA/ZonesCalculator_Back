@@ -27,23 +27,22 @@ public class ZoneController {
         this.zoneService = zoneService;
     }
 
-@PostMapping("/calculate")
-public ResponseEntity<?> getZones(@RequestBody ZoneRequest zoneRequest) {
-    Antenna antenna = zoneRequest.getAntenna();
-    Person person = zoneRequest.getPerson();
-    System.out.println("calculating zones");
-    double complianceZone = zoneService.getComplianceZone(antenna.getPower(), antenna.getGain());
-    double occupationalZone = zoneService.getOccupationalZone(antenna.getPower(), antenna.getGain());
-    double horizontalDistanceCompliance = zoneService.getHorizontalDistance(complianceZone, antenna, person);
-    double horizontalDistanceOccupational = zoneService.getHorizontalDistance(occupationalZone, antenna, person);
-
-    ZoneSummary zoneSummary = new ZoneSummary(complianceZone, occupationalZone, horizontalDistanceCompliance, horizontalDistanceOccupational);
-
-    return ResponseEntity.ok(zoneSummary);
-}
-
-
-
-
+    @PostMapping("/calculate")
+    public ResponseEntity<?> getZones(@RequestBody ZoneRequest zoneRequest) {
+        Antenna antenna = zoneRequest.getAntenna();
+        Person person = zoneRequest.getPerson();
+        
+        System.out.println("Calculating zones...");
     
+        double complianceZone = zoneService.getComplianceZone(antenna.getPower(), antenna.getGain(), antenna.getFrequency());
+        double occupationalZone = zoneService.getOccupationalZone(antenna.getPower(), antenna.getGain(), antenna.getFrequency());
+        double horizontalDistanceCompliance = zoneService.getHorizontalDistance(complianceZone, antenna, person);
+        double horizontalDistanceOccupational = zoneService.getHorizontalDistance(occupationalZone, antenna, person);
+    
+        ZoneSummary zoneSummary = new ZoneSummary(complianceZone, occupationalZone, horizontalDistanceCompliance, horizontalDistanceOccupational);
+    
+        return ResponseEntity.ok(zoneSummary);
+    }
+    
+
 }
